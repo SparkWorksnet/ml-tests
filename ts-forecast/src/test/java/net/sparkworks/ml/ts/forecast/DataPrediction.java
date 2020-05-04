@@ -29,18 +29,6 @@ public class DataPrediction implements CommandLineRunner {
     @Autowired
     private InputProperties inputProperties;
     
-    //        private static final UUID RESOURCE_UUID = UUID.fromString("b5442ed6-532e-40df-a948-1f8d72af5f22"); //pressure auth1
-    //        private static final UUID RESOURCE_UUID = UUID.fromString("34a8e7c7-938d-4497-9a7f-6d93cce33253"); //ambientTemp auth1
-    //        private static final UUID RESOURCE_UUID = UUID.fromString("38d69823-9ab5-4592-9b1d-09c1ee08606b"); //ambientTemp auth2
-    //        private static final UUID RESOURCE_UUID = UUID.fromString("6bd12dc8-a22a-44ce-b8f4-a0b46b0909e6"); //ambientTemp auth3
-    //        private static final UUID RESOURCE_UUID = UUID.fromString("f93e3f27-aca8-4bc2-9406-da855a2bc060"); //waterVolume authx
-    private static final UUID RESOURCE_UUID = UUID.fromString("3d10525c-8a57-4e27-97c8-50702b746b42"); //waterVolume authx
-    //        private static final UUID RESOURCE_UUID = UUID.fromString("3da34fb1-e6fd-4740-86d1-9853796506f9");
-    //    private static final UUID RESOURCE_UUID = UUID.fromString("a1bb55bb-a9ed-44c0-ac0c-b5e16fa52b36");
-    //    private static final UUID RESOURCE_UUID = UUID.fromString("dfaa771d-796e-4243-abcd-0692b2fe3559");
-    //    private static final UUID RESOURCE_UUID = UUID.fromString("0ad7138c-22ec-4552-b7aa-35b0677f796d");
-    //    private static final UUID RESOURCE_UUID = UUID.fromString("6f8f6f48-18e8-4a0d-996b-ae7e5040f2dc");
-    
     private static final int FORECAST_SIZE = 2 * 7 * 24;
     
     public static void main(String[] args) {
@@ -74,7 +62,7 @@ public class DataPrediction implements CommandLineRunner {
         criterion.setFrom(1578704400000L);
         criterion.setTo(1582938000000L);
         criterion.setGranularity(Granularity.HOUR);
-        criterion.setResourceUuid(RESOURCE_UUID);
+        criterion.setResourceUuid(UUID.fromString(uuid));
         log.info("Retrieving data {}", criterion);
         final QueryTimeRangeResourceDataResultDTO response1 = dataClient.queryTimeRangeResourcesData(QueryTimeRangeResourceDataDTO.builder().queries(Collections.singletonList(criterion)).build());
         
@@ -119,19 +107,20 @@ public class DataPrediction implements CommandLineRunner {
         
         final long diff = System.currentTimeMillis() - start;
         
-        System.out.print("forecast,forecast-smoothed,value");
-        //print data
-        for (int i = 0; i < forecastData.length; i++) {
-            System.out.print(forecastData[i] + ",");
-            System.out.print(smoothedForecastData[i] + ",");
-            System.out.println(dataToBePredicted[i]);
-        }
+        //        System.out.print("forecast,forecast-smoothed,value");
+        //        //print data
+        //        for (int i = 0; i < forecastData.length; i++) {
+        //            System.out.print(forecastData[i] + ",");
+        //            System.out.print(smoothedForecastData[i] + ",");
+        //            System.out.println(dataToBePredicted[i]);
+        //        }
         
         return diff;
     }
     
     private static void testSmoothWithDifferentParams(final double[] predictionData, final double[] forecastData, final double[] dataToBePredicted) {
-        log.info(String.format("Forecast Sum of squared error %15.0f", DataUtils.calculateSSE(dataToBePredicted, forecastData)));
+        //log.info(String.format("Forecast Sum of squared error %15.0f", DataUtils.calculateSSE(dataToBePredicted, forecastData)));
+        log.info(String.format("Forecast RMSPE of forecasted Data %5.5f", DataUtils.calculateMPE(dataToBePredicted, forecastData)));
         for (double alpha = 0.1; alpha <= 1.0; alpha += 0.1) {
             for (double beta = 0.1; beta <= 1.0; beta += 0.1) {
                 final double[] smoothedForecastData = DataUtils.combineAndSmoothen(predictionData, forecastData, alpha, beta);
@@ -140,7 +129,8 @@ public class DataPrediction implements CommandLineRunner {
                         smoothedForecastData[i] = 0;
                     }
                 }
-                log.info(String.format("Smoothed Sum of squared error [%.1f|%.1f] %15.0f", alpha, beta, DataUtils.calculateSSE(dataToBePredicted, smoothedForecastData)));
+                //log.info(String.format("Smoothed Sum of squared error [%.1f|%.1f] %15.0f", alpha, beta, DataUtils.calculateSSE(dataToBePredicted, smoothedForecastData)));
+                log.info(String.format("Smoothed RMSPE of smoothedForecasted Data [%.1f|%.1f] %5.5f", alpha, beta, DataUtils.calculateMPE(dataToBePredicted, smoothedForecastData)));
             }
         }
     }

@@ -1,10 +1,12 @@
 package net.sparkworks.ml.ts.forecast;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sparkworks.cargo.common.dto.data.ResourceDataDTO;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 
+@Slf4j
 public class DataUtils {
     
     /**
@@ -12,10 +14,10 @@ public class DataUtils {
      * <p/>
      * This method is suitable for fitting series with linear trend.
      *
-     * @param data  An array containing the recorded data of the time series
-     * @param forecast  An array containing the generated forecast data for the time series
-     * @param alpha Smoothing factor for data (0 < alpha < 1)
-     * @param beta  Smoothing factor for trend (0 < beta < 1)
+     * @param data     An array containing the recorded data of the time series
+     * @param forecast An array containing the generated forecast data for the time series
+     * @param alpha    Smoothing factor for data (0 < alpha < 1)
+     * @param beta     Smoothing factor for trend (0 < beta < 1)
      * @return Instance of model that can be used to forecast future values
      */
     public static double[] combineAndSmoothen(double[] data, double[] forecast, double alpha, double beta) {
@@ -59,6 +61,23 @@ public class DataUtils {
             sse += Math.pow(forecastData[i] - data[i], 2);
         }
         return sse;
+    }
+    
+    public static double calculateMPE(double[] data, double[] forecastData) {
+        double totalSPE = 0;
+        double count = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] != 0) {
+                count++;
+                double pe = Math.pow(((data[i] - forecastData[i]) / data[i]), 2);
+                log.debug("{}", pe);
+                totalSPE += pe;
+            }
+        }
+        final double mspe = totalSPE / count;
+        final double rmspe = Math.sqrt(mspe);
+        log.debug("{}/{}={} -> {}", totalSPE, count, mspe, rmspe);
+        return rmspe;
     }
     
     private static void validateParams(final double alpha, final double beta) {
