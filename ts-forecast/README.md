@@ -19,6 +19,15 @@ Based on the tests the following parameters are considered the best for most cas
 
 ## usage examples
 
+Legend:
+
++ value: data to-be-forecasted
++ forecast: result of the arima model
++ forecast-smoothed: result of the double exponential smoothing for the forecast period
++ Data points every 1h
++ Forecast Period 336h (14 days)
+Examples:
+
 + lp-temp-1
 
 ![lp-temp-1](img/lp-temp-1.png)
@@ -39,6 +48,6 @@ Based on the tests the following parameters are considered the best for most cas
 
 ![school-lum](img/school-lum.png)
 
-+ lp-water-pressure
++ lp-water-pressure 
 
 ![lp-water-pressure](img/lp-water-pressure.png)
