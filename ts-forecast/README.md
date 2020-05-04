@@ -26,6 +26,8 @@ Legend:
 + forecast-smoothed: result of the double exponential smoothing for the forecast period
 + Data points every 1h
 + Forecast Period 336h (14 days)
++ full data in [SparksDrive/Test Data/ML Tests/TS-Forecasting](https://docs.google.com/spreadsheets/d/1UGtqdazvvKDEgNO0UKelzbTHrtnUnamRvDWyNN7PgRY/edit?usp=sharing)
+
 Examples:
 
 + lp-temp-1
