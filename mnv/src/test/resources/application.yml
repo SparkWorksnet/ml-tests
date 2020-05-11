@@ -1,0 +1,17 @@
+spring:
+  main:
+    web-environment: false
+
+sparks:
+  cargo:
+    address: https://api.sparkworks.net
+    internal: false
+    oauth2:
+      client:
+        accessTokenUrl: "https://sso.sparkworks.net/aa/oauth/token"
+  rs:
+    address: https://rs.sparkworks.net
+    internal: false
+    oauth2:
+      client:
+        accessTokenUrl: "https://sso.sparkworks.net/aa/oauth/token"
