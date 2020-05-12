@@ -17,7 +17,9 @@
     <name>SparkWorks :: ml-tests </name>
     <inceptionYear>2020</inceptionYear>
     <modules>
+        <module>common</module>
         <module>ts-forecast</module>
+        <module>mnv</module>
     </modules>
 
     <properties>

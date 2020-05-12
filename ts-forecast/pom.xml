@@ -20,6 +20,13 @@
     <dependencies>
 
         <dependency>
+            <groupId>net.sparkworks.ml-tests</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>net.sparkworks.cargo</groupId>
             <artifactId>cargo-client</artifactId>
             <version>${sparkworks.cargo.version}</version>

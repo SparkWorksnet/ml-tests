@@ -14,6 +14,7 @@ import net.sparkworks.cargo.common.dto.data.QueryTimeRangeResourceDataCriteriaDT
 import net.sparkworks.cargo.common.dto.data.QueryTimeRangeResourceDataDTO;
 import net.sparkworks.cargo.common.dto.data.QueryTimeRangeResourceDataResultDTO;
 import net.sparkworks.ml.ts.forecast.config.InputProperties;
+import net.sparkworks.ml.common.util.DataUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

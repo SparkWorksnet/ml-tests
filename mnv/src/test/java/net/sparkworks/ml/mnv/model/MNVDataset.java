@@ -40,4 +40,9 @@ public class MNVDataset {
             dayData.get(day).setValueEnd(datum.getReading());
         }
     }
+    
+    public void add(final DayData dayPoint) {
+        dayData.put(dayPoint.getDay(), dayPoint);
+    }
+    
 }

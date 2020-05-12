@@ -26,4 +26,19 @@ public class ResourceUtils {
         }
         return null;
     }
+    
+    public static String getVolume(final RegistryClient registryClient, final ResourceDTO resource) {
+        final String[] parts = resource.getSystemName().split("/");
+        final String deviceName = parts[0] + "/" + parts[1];
+        final List<RecordDTO> deviceNameRecords = registryClient.query(Collections.singletonList(deviceName));
+        
+        for (final RecordDTO record : deviceNameRecords) {
+            for (final PairDTO pair : record.getPairs()) {
+                if ("volume".equals(pair.getKey())) {
+                    return pair.getValue();
+                }
+            }
+        }
+        return null;
+    }
 }
