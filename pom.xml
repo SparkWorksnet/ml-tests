@@ -17,13 +17,13 @@
     <name>SparkWorks :: ml-tests </name>
     <inceptionYear>2020</inceptionYear>
     <modules>
-        <module>common</module>
-        <module>ts-forecast</module>
-        <module>mnv</module>
+        <module>ts-forecast-test</module>
+        <module>mnv-test</module>
     </modules>
 
     <properties>
         <sparkworks.cargo.version>1.0.0-SNAPSHOT</sparkworks.cargo.version>
+        <sparkworks.ml.version>1.0.0-SNAPSHOT</sparkworks.ml.version>
     </properties>
 
     <dependencyManagement>
