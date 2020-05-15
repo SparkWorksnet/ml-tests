@@ -1,6 +1,7 @@
 package net.sparkworks.ml.ts.forecast;
 
 
+import com.workday.insights.timeseries.arima.struct.ArimaParams;
 import lombok.extern.slf4j.Slf4j;
 import net.sparkworks.cargo.client.DataClient;
 import net.sparkworks.cargo.client.ResourceClient;
@@ -81,12 +82,11 @@ public class DataPrediction implements CommandLineRunner {
     }
     
     private static void testSmoothWithDifferentParams(final double[] predictionData, final double[] dataToBePredicted) {
-        
-        
+        final ArimaParams arimaParams = new ArimaParams(24, 0, 2, 35, 0, 2, 7);
         for (double alpha = 0.1; alpha <= 1.0; alpha += 0.1) {
             for (double beta = 0.1; beta <= 1.0; beta += 0.1) {
                 final double[] smoothedForecastData = DataPredictor.predictHourlyData(predictionData, FORECAST_SIZE,
-                        true, new SmootingParameters(alpha, beta));
+                        true, arimaParams, new SmootingParameters(alpha, beta));
                 for (int i = 0; i < FORECAST_SIZE; i++) {
                     if (smoothedForecastData[i] < 0) {
                         smoothedForecastData[i] = 0;
