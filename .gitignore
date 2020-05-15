@@ -1,0 +1,10 @@
+.idea
+*.iml
+mnv-test/src/test/resources/application.properties
+mnv-test/src/test/resources/application-local.yml
+mnv-test/target/
+results/
+target/
+ts-forecast-test/src/test/resources/application.properties
+ts-forecast-test/src/test/resources/application-local.yml
+ts-forecast-test/target/
