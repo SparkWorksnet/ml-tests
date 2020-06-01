@@ -19,6 +19,7 @@
     <modules>
         <module>ts-forecast-test</module>
         <module>mnv-test</module>
+        <module>ecg-test</module>
     </modules>
 
     <properties>
