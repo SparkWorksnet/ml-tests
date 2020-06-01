@@ -27,21 +27,21 @@ public class ECGTest implements CommandLineRunner {
         final File f = new File(ecgLocation);
         for (final File file : f.listFiles()) {
             final ECGTrace trace = new ECGTrace(file);
-            System.out.println("=====================================================");
-            System.out.println("File: " + trace.getFilename());
-            System.out.println("Channels: " + trace.getNumberOfChannels());
-            System.out.println("Records: " + trace.getNumberOfRecords());
-            System.out.println("Duration: " + trace.getDurationOfRecords() + " records");
-            System.out.println("Duration: " + trace.getTraceDuration() + " seconds");
-            System.out.println("Samples: " + trace.getSamplesCount());
+            log.info("=====================================================");
+            log.info("File: " + trace.getFilename());
+            log.info("Channels: " + trace.getNumberOfChannels());
+            log.info("Records: " + trace.getNumberOfRecords());
+            log.info("Duration: " + trace.getDurationOfRecords() + " records");
+            log.info("Duration: " + trace.getTraceDuration() + " seconds");
+            log.info("Samples: " + trace.getSamplesCount());
             final int rate = trace.getSamplesCount() / trace.getNumberOfRecords();
-            System.out.println("Rate: " + rate);
+            log.info("Rate: " + rate);
             
             final double[] rrIntervals = trace.getRRIntervals();
             
             final SummaryStatistics statistics = DataUtils.calculateStatistics(rrIntervals);
-            System.out.println("RR-Mean: " + statistics.getMean());
-            System.out.println("RR-std: " + statistics.getStandardDeviation());
+            log.info("RR-Mean: " + statistics.getMean());
+            log.info("RR-std: " + statistics.getStandardDeviation());
             
             //            for (int record = 0; record < trace.getNumberOfRecords(); record++) {
             //                System.out.print(record + ",");
@@ -51,7 +51,7 @@ public class ECGTest implements CommandLineRunner {
             //                        System.out.print(beat[j] + ",");
             //                    }
             //                }
-            //                System.out.println("");
+            //                log.info("");
             //            }
         }
     }
