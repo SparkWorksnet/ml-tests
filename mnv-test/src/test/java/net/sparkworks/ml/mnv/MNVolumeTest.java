@@ -89,6 +89,7 @@ public class MNVolumeTest implements CommandLineRunner {
         
         final Calendar cal = Calendar.getInstance();
         long timeNow = cal.getTimeInMillis();
+        //How far should we go to check the data
         cal.add(Calendar.DAY_OF_YEAR, -8 * 30);
         long time1 = cal.getTimeInMillis();
         log.debug("timeNow:{} time1:{}", timeNow, time1);
@@ -98,6 +99,7 @@ public class MNVolumeTest implements CommandLineRunner {
             base.mkdir();
         }
         
+        //build the list of buildings in the installation as a building map
         final Collection<ResourceDTO> resources = groupClient.getGroupResources(baseGroupUuid);
         for (final ResourceDTO resource : resources) {
             if (resource.getPhenomenonUuid() != null && resource.getPhenomenonUuid().equals(
@@ -117,8 +119,8 @@ public class MNVolumeTest implements CommandLineRunner {
             }
         }
         
+        // for each building get the data and start calculating the Mean Night Volumes
         int count = 0;
-        
         for (final Building building : buildingMap.values()) {
             log.info("=====================================");
             log.info("Building {}", building.getName());
@@ -157,15 +159,18 @@ public class MNVolumeTest implements CommandLineRunner {
             
             DayData value = it.next();
             do {
+                //prepare the queue and load in 15 measurements
                 if (value != null) {
                     log.debug("{} - {}", new Date(value.getTimestamp()), value.getDiff());
                     if (value.getDiff() != null) {//&& value.getDiff() > 0
                         queue.addLast(value);
                     }
+                    //remove the first entry as it now is more than 15 days old
                     if (queue.size() > 15) {
                         queue.removeFirst();
                     }
                 }
+                //once we have 15 measurements start calculating the Mean Night Volume
                 if (queue.size() == 15) {
                     final MNVDataset dataset = datasetService.getDataset(building.getSmall(), queue);
                     final MNVData mnv = MNVUtils.calculateFirstLevelStatistics(dataset, false);
